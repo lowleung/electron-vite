@@ -37,29 +37,6 @@ exports.installDependencies = function installDependencies(
   })
 }
 
-/**
- * Runs `npm run lint -- --fix` in the project directory
- * @param {string} cwd Path of the created project directory
- * @param {object} data Data from questionnaire
- */
-exports.runLintFix = function runLintFix(cwd, data, color) {
-  if (data.lint && lintStyles.indexOf(data.lintConfig) !== -1) {
-    console.log(
-      `\n\n${color(
-        'Running eslint --fix to comply with chosen preset rules...'
-      )}`
-    )
-    console.log('# ========================\n')
-    const args =
-      data.autoInstall === 'npm'
-        ? ['run', 'lint', '--', '--fix']
-        : ['run', 'lint', '--fix']
-    return runCommand(data.autoInstall, args, {
-      cwd,
-    })
-  }
-  return Promise.resolve()
-}
 
 /**
  * Prints the final message with instructions of necessary next steps.
