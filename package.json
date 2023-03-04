@@ -2,7 +2,7 @@
   "name": "electron-vite",
   "version": "0.0.0",
   "description": "vite electron vue3 template",
-  "main": "index.js",
+  "main": "meta.js",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/lowleung/electron-vite.git"
