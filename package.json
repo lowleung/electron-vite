@@ -1,15 +1,10 @@
 {
   "name": "electron-vite",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "description": "vite electron vue3 template",
   "main": "meta.js",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/lowleung/electron-vite.git"
-  },
-  "author": "lowleung",
   "license": "MIT",
   "devDependencies": {
-    "suppose": "^0.6.1"
+    "vue-cli": "^2.8.1"
   }
 }
