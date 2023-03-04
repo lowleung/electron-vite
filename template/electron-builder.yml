@@ -20,7 +20,7 @@ asar: false
 # afterSign: build/notarize.js
 afterSign: build/afterSign.js
 win:
-  executableName: qianan_huagui
+  executableName: {{name}}
   target:
     - target: nsis
       arch:
