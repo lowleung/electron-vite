@@ -18,7 +18,20 @@ module.exports = {
     // When running tests for the template, this adds answers for the selected scenario
     before: addTestAnswers
   },
+  helpers: {
+    if_or(v1, v2, options) {
 
+      if (v1 || v2) {
+        return options.fn(this)
+      }
+
+      return options.inverse(this)
+    },
+    template_version() {
+      return templateVersion
+    },
+  },
+  
   prompts: {
     name: {
       when: 'isNotTest',
