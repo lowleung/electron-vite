@@ -5,7 +5,6 @@
   "main": "meta.js",
   "license": "MIT",
   "devDependencies": {
-    "crypto": "^1.0.1",
     "vue-cli": "^2.8.1"
   }
 }

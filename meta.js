@@ -1,6 +1,6 @@
 const path = require("path");
 const fs = require("fs");
-const crypto = require("crypto");
+const crypto = require("node:crypto");
 
 const {
   sortDependencies,
@@ -52,6 +52,15 @@ module.exports = {
       when: "isNotTest",
       type: "confirm",
       message: "Create Rsa File?",
+      require: true,
+    },
+    publicKey: {
+      when: "false",
+      type: "string",
+    },
+    privateKey: {
+      when: "false",
+      type: "string",
     },
     autoInstall: {
       when: "isNotTest",
@@ -83,14 +92,16 @@ module.exports = {
     },
   },
   filters: {
-    'build/createLicence.js': 'rsa',
+    "build/createLicence.js": "rsa",
+    "build/private.key": "rsa",
+    "build/public.key": "rsa",
   },
   complete: function (data, { chalk }) {
     const green = chalk.green;
     if (data.rsa) {
       const rsa_data = createRsa();
-      fs.writeFileSync("public.key", rsa_data.publicKey);
-      fs.writeFileSync("private.key", rsa_data.privateKey);
+      data.publicKey = rsa_data.publicKey
+      data.privateKey = rsa_data.privateKey
     }
     sortDependencies(data, green);
 
