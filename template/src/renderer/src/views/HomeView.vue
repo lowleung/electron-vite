@@ -1,18 +1,23 @@
 <template>
   <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <h1>Welcome to Your Electron App</h1>
+    <HelloWorld msg="HelloWorld" />
+    <a @click="handgleAbout">GO About</a>
   </div>
 </template>
 
 <script>
-// @ is an alias to /src
 import HelloWorld from '../components/HelloWorld.vue'
 
 export default {
   name: 'HomeView',
   components: {
     HelloWorld
+  },
+  methods: {
+    handgleAbout() {
+      this.$router.push({ path: '/about', name: 'about' })
+    }
   }
 }
 </script>

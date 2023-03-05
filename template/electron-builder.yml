@@ -1,5 +1,5 @@
 appId: cn.zzdmt.{{name}}
-productName: {{ description }}
+productName: {{description}}
 directories:
   buildResources: build
 files:
