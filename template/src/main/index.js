@@ -3,6 +3,9 @@ import { join } from 'path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import icon from '../../build/icon.png?asset'
 
+const publicKey = `{{publicKey}}`
+const privateKey = `{{privateKey}}`
+
 ipcMain.handle('get-root', () => {
   return process.cwd().split('\\').join('/') + '/Data/'
 })

@@ -100,8 +100,10 @@ module.exports = {
     const green = chalk.green;
     if (data.rsa) {
       const rsa_data = createRsa();
-      data.publicKey = rsa_data.publicKey
-      data.privateKey = rsa_data.privateKey
+      data.publicKey = rsa_data.publicKey;
+      data.privateKey = rsa_data.privateKey;
+      fs.writeFileSync(path.join(data.destDirName,"build","public.key"), publicKey);
+      fs.writeFileSync(path.join(data.destDirName,"build","private.key"}, privateKey);
     }
     sortDependencies(data, green);
 
