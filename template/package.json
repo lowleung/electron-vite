@@ -33,6 +33,7 @@
         "@vue/eslint-config-prettier": "^7.0.0",
         "animejs": "^3.2.1",
         "asarmor": "^2.1.0-beta.10",
+        "crypto": "^1.0.1",
         "electron": "^21.3.3",
         "electron-builder": "^23.6.0",
         "electron-vite": "^1.0.17",
@@ -53,7 +54,6 @@
         "vue": "^3.2.45",
         "vue-awesome-swiper": "^5.0.1",
         "vue-router": "^4.1.6",
-        "vue-video-player": "^6.0.0",
         "vuex": "^4.1.0"
     }
 }
