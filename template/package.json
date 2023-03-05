@@ -8,7 +8,7 @@
     "scripts": {
         "format": "prettier --write .",
         "lint": "eslint . --ext .js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix",
-        {{#if e2e}}
+        {{#if rsa}}
         "licence": "node ./build/createLicence.js",
         {{/if}}
         "start": "electron-vite preview",

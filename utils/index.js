@@ -1,7 +1,7 @@
 const path = require("path");
 const fs = require("fs");
 const spawn = require("child_process").spawn;
-const crypto = require("crypto");
+
 
 const lintStyles = ["standard", "airbnb"];
 
