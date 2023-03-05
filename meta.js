@@ -46,6 +46,11 @@ module.exports = {
           short: 'yarn',
         },
         {
+          name: 'Yes, use Pnpm',
+          value: 'pnpm',
+          short: 'pnpm',
+        },
+        {
           name: 'No, I will handle that myself',
           value: false,
           short: 'no',
