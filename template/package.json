@@ -24,6 +24,9 @@
     },
     "dependencies": {
         "@electron-toolkit/preload": "^1.0.3",
+        {{#if rsa}}
+        "electron-store": "^8.1.0",
+        {{/if}}
         "@electron-toolkit/utils": "^1.0.2"
     },
     "devDependencies": {

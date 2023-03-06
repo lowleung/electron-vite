@@ -1,17 +1,18 @@
-import { app, shell, BrowserWindow, ipcMain } from 'electron'
+import { app, shell, BrowserWindow, ipcMain, dialog } from 'electron'
 import { join } from 'path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import icon from '../../build/icon.png?asset'
-
-const publicKey = `{{publicKey}}`
-const privateKey = `{{privateKey}}`
+{{#if rsa}}
+import validateLicense from './validateLicense'
+import getHardwaveId from './getHardwaveId'
+import pkg from '../../package.json'
+{{/if}}
 
 ipcMain.handle('get-root', () => {
   return process.cwd().split('\\').join('/') + '/Data/'
 })
 
 function createWindow() {
-  // Create the browser window.
   const mainWindow = new BrowserWindow({
     width: 1920,
     height: 1080,
@@ -45,8 +46,6 @@ function createWindow() {
     return { action: 'deny' }
   })
 
-  // HMR for renderer base on electron-vite cli.
-  // Load the remote URL for development or the local html file for production.
   if (is.dev && process.env['ELECTRON_RENDERER_URL']) {
     mainWindow.loadURL(process.env['ELECTRON_RENDERER_URL'])
   } else {
@@ -60,12 +59,27 @@ app.whenReady().then(() => {
   app.on('browser-window-created', (_, window) => {
     optimizer.watchWindowShortcuts(window)
   })
-
+  {{#if rsa}}
+  if (validateLicense()) {
+    createWindow()
+    app.on('activate', function () {
+      if (BrowserWindow.getAllWindows().length === 0) createWindow()
+    })
+  } else {
+    dialog.showMessageBoxSync({
+      title: pkg.description,
+      message: '试用期结束，请联系软件厂商！',
+      type: 'warning',
+      detail: '硬件ID:' + getHardwaveId()
+    })
+    app.quit()
+  }
+  {{else}}
   createWindow()
-
   app.on('activate', function () {
     if (BrowserWindow.getAllWindows().length === 0) createWindow()
   })
+  {{/if}}
 })
 
 app.on('window-all-closed', () => {

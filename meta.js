@@ -8,8 +8,6 @@ const {
   printMessage,
 } = require("./utils");
 
-const { addTestAnswers } = require("./scenarios");
-
 function createRsa() {
   const cryptoKeyPairOptions = {
     modulusLength: 4096,
@@ -30,40 +28,25 @@ function createRsa() {
 }
 
 module.exports = {
-  metalsmith: {
-    before: addTestAnswers,
-  },
-
   prompts: {
     name: {
-      when: "isNotTest",
       type: "string",
       required: true,
-      message: "Project name",
+      message: "项目名",
     },
     description: {
-      when: "isNotTest",
       type: "string",
-      required: false,
-      message: "Project description",
-      default: "A Vue.js project",
+      required: true,
+      message: "项目简介",
+      default: "A Electron project",
     },
     rsa: {
-      when: "isNotTest",
       type: "confirm",
+      required: true,
       message: "Create Rsa File?",
-      require: true,
-    },
-    publicKey: {
-      when: "false",
-      type: "string",
-    },
-    privateKey: {
-      when: "false",
-      type: "string",
+      default: true,
     },
     autoInstall: {
-      when: "isNotTest",
       type: "list",
       message:
         "Should we run `npm install` for you after the project has been created? (recommended)",
@@ -79,11 +62,6 @@ module.exports = {
           short: "yarn",
         },
         {
-          name: "Yes, use Pnpm",
-          value: "pnpm",
-          short: "pnpm",
-        },
-        {
           name: "No, I will handle that myself",
           value: false,
           short: "no",
@@ -91,19 +69,29 @@ module.exports = {
       ],
     },
   },
+
   filters: {
     "build/createLicence.js": "rsa",
     "build/private.key": "rsa",
     "build/public.key": "rsa",
+    "src/main/getHardwaveId.js": "rsa",
+    "src/main/validateLicense.js": "rsa",
   },
+
   complete: function (data, { chalk }) {
     const green = chalk.green;
     if (data.rsa) {
       const rsa_data = createRsa();
       data.publicKey = rsa_data.publicKey;
       data.privateKey = rsa_data.privateKey;
-      fs.writeFileSync(path.join(data.destDirName,"build","public.key"), publicKey);
-      fs.writeFileSync(path.join(data.destDirName,"build","private.key"}, privateKey);
+      fs.writeFileSync(
+        path.join(data.destDirName, "build", "public.key"),
+        rsa_data.publicKey
+      );
+      fs.writeFileSync(
+        path.join(data.destDirName, "build", "private.key"),
+        rsa_data.privateKey
+      );
     }
     sortDependencies(data, green);
 

@@ -1,44 +1,76 @@
-const arg = require('arg')
+const prompts = require('prompts')
 const crypto = require('crypto')
 const fs = require('fs')
-Date.prototype.format = function (format) {
-  var o = {
-    'M+': this.getMonth() + 1, //month
-    'd+': this.getDate(), //day
-    'h+': this.getHours(), //hour
-    'm+': this.getMinutes(), //minute
-    's+': this.getSeconds(), //second
-    'q+': Math.floor((this.getMonth() + 3) / 3), //quarter
-    S: this.getMilliseconds() //millisecond
-  }
-  if (/(y+)/.test(format))
-    format = format.replace(RegExp.$1, (this.getFullYear() + '').substr(4 - RegExp.$1.length))
-  for (var k in o)
-    if (new RegExp('(' + k + ')').test(format))
-      format = format.replace(
-        RegExp.$1,
-        RegExp.$1.length == 1 ? o[k] : ('00' + o[k]).substr(('' + o[k]).length)
-      )
-  return format
+const privateKey = fs.readFileSync('build/private.key').toString()
+async function Init() {
+  let result = await prompts([
+    {
+      name: 'hardwaveEnable',
+      type: 'toggle',
+      message: '是否限制硬件ID？',
+      initial: true,
+      active: '是',
+      inactive: '否'
+    },
+    {
+      name: 'hardwaveID',
+      type: (hardwaveEnable) => (hardwaveEnable ? 'text' : null),
+      message: '请输入硬件ID',
+      validate: (value) =>
+        /^[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}$/.test(
+          value.toString()
+        )
+          ? true
+          : `硬件ID格式错误`
+    },
+    {
+      name: 'evaluationEnable',
+      type: 'toggle',
+      message: '是否启用试用时间？',
+      initial: true,
+      active: '是',
+      inactive: '否'
+    },
+    {
+      name: 'evaluationTime',
+      type: (evaluationEnable) => (evaluationEnable ? 'number' : null),
+      message: '请输入试用时间(天)',
+      validate: (value) => (parseInt(value) > 0 ? true : `试用时间应为正数`)
+    },
+    {
+      name: 'expirationEnable',
+      type: 'toggle',
+      message: '是否启用截至时间？',
+      initial: true,
+      active: '是',
+      inactive: '否'
+    },
+    {
+      name: 'expirationDate',
+      type: (expirationEnable) => (expirationEnable ? 'date' : null),
+      message: `请输入截止日期`,
+      validate: (date) => (date < Date.now() ? `截止日期应大于当时日期` : true)
+    }
+  ])
+  return result
 }
-const privateKey = fs.readFileSync('private.key').toString()
-const args = arg(
-  {
-    '--permanent': Boolean,
-    '-p': '--permanent',
-    '--expireDate': String,
-    '-e': '--expireDate'
-  },
-  {
-    permissive: false,
-    argv: process.argv.slice(2),
-    stopAtPositional: false
+Init().then((result) => {
+  const license = {}
+  if (result.hardwaveEnable) {
+    license.hardwave = result.hardwaveID
   }
-)
-let license = {
-  permanent: args['--permanent'] || false,
-  expireDate: args['--expireDate'] || '1970-01-01',
-  lastDate: new Date().format('yyyy-MM-dd')
-}
-const encrypted = crypto.privateEncrypt(privateKey, Buffer.from(JSON.stringify(license)))
-fs.writeFileSync('Data/license.data', encrypted)
+  if (result.evaluationEnable) {
+    license.evaluation = result.evaluationTime
+  }
+  if (result.expirationEnable) {
+    license.expiration = Date.parse(result.expirationDate)
+  }
+  if (Object.keys(license).length == 0) {
+    console.log('\x1B[31m%s\x1B[0m', '请注意，您未设置任何限制，此次操作不会生成授权文件！！！')
+  } else {
+    license.lastData = Date.parse(new Date())
+    const encrypted = crypto.privateEncrypt(privateKey, Buffer.from(JSON.stringify(license)))
+    fs.writeFileSync('Data/lic.license', encrypted)
+    console.log('已生成授权文件，操作结束。')
+  }
+})
