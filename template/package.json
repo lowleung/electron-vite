@@ -60,6 +60,7 @@
         "vue": "^3.2.45",
         "vue-awesome-swiper": "^5.0.1",
         "vue-router": "^4.1.6",
-        "vuex": "^4.1.0"
+        "vuex": "^4.1.0",
+        "vue3-lottie": "^2.4.0"
     }
 }
