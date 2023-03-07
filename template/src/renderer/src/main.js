@@ -5,6 +5,7 @@ import 'viewerjs/dist/viewer.css'
 import VueViewer from 'v-viewer'
 import VueVideoPlayer from '@videojs-player/vue'
 import 'video.js/dist/video-js.css'
+import DataV from '@dataview/datav-vue3';
 import App from './App.vue'
 import router from './router'
 import store from './store'
@@ -15,4 +16,5 @@ createApp(App)
   .use(ElementPlus)
   .use(VueViewer)
   .use(VueVideoPlayer)
+  .use(DataV,{classNamePrefix:'dv-'})
   .mount('#app')
