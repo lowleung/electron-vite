@@ -30,9 +30,9 @@
         "@electron-toolkit/utils": "^1.0.2"
     },
     "devDependencies": {
-        "@dataview/datav-vue3": "^0.0.0-test.1672506674342",
         "@electron/asar": "^3.2.3",
         "@electron/notarize": "^1.2.3",
+        "@kjgl77/datav-vue3": "^1.4.2",
         "@rushstack/eslint-patch": "^1.2.0",
         "@types/video.js": "^7.3.51",
         "@videojs-player/vue": "^1.0.0",

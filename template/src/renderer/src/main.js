@@ -7,7 +7,7 @@ import VueVideoPlayer from '@videojs-player/vue'
 import 'video.js/dist/video-js.css'
 import Vue3Lottie from 'vue3-lottie'
 import 'vue3-lottie/dist/style.css'
-import DataV from '@dataview/datav-vue3';
+import DataVVue3 from '@kjgl77/datav-vue3'
 import App from './App.vue'
 import router from './router'
 import store from './store'
@@ -19,5 +19,5 @@ createApp(App)
   .use(VueViewer)
   .use(VueVideoPlayer)
   .use(Vue3Lottie)
-  .use(DataV,{classNamePrefix:'dv-'})
+  .use(DataVVue3)
   .mount('#app')

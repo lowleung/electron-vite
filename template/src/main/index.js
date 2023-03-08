@@ -22,8 +22,8 @@ function createWindow() {
     frame: false,
     center: false,
     alwaysOnTop: false,
-    fullscreen: false,
-    kiosk: false,
+    fullscreen: true,
+    kiosk: true,
     autoHideMenuBar: true,
     ...(process.platform === 'linux' ? { icon } : {}),
     webPreferences: {
