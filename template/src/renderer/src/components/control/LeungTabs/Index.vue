@@ -10,9 +10,8 @@
           class="tab-link"
           :class="{ 'tab-active': tab.hash == activeTabHash }"
           @click="toggleNav(tab, $event)"
-        >
-          {{ tab.header }}
-        </a>
+          v-text="tab.header"
+        />
       </div>
     </div>
   </div>
