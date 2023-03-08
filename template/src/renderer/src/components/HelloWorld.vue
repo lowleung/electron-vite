@@ -1,6 +1,6 @@
 <template>
   <div class="hello">
-    <h3>{{ msg }}</h3>
+    <h3 v-text="msg"></h3>
   </div>
 </template>
 

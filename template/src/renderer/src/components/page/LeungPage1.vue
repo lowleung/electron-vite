@@ -23,8 +23,8 @@
         <div class="_arrow"></div>
       </div>
       <div class="line"></div>
-      <div class="name">{{ title }}</div>
-      <div class="project">{{ subTitle }}</div>
+      <div class="name" v-text="title"></div>
+      <div class="project" v-text="subTitle"></div>
     </div>
   </div>
 </template>
